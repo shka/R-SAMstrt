@@ -1,0 +1,43 @@
+* SAMstrt
+
+SAMstrt is an extension package for SAMseq, which is a statistical
+method for differential expression, to enable spike-in normalization
+and statistical testing based on the estimated absolute number of
+transcripts per cell for seqencing-based single-cell transcriptome
+methods.
+
+** Usage
+
+Evaluation of "R/SAMstrt.R" enables SAMstrt. All usages (e.g. response
+types) for the SAMstrt are compatible with the original SAMseq. The
+input matrix must contain some rows beginning with "RNA_SPIKE_" for
+the spike-in based normalization. Also one new function
+"SAMstrt.normalization" provides a matrix of the normalized values.
+
+Future publication contains some example codes and data.
+
+** ToDo
+
+- Submission to bioconductor
+
+** Acknowledgements
+
+Development of this package was supported by the Karolinska Institutet
+Distinguished Professor Award to Juha Kere, and the Strategic Research
+Area Grant for Diabetes to Karolinska Institutet. The computations
+were performed on resources provided by SNIC through Uppsala
+Multidisciplinary Center for Advanced Computational Science (UPPMAX)
+under Project b2010037.
+
+** References
+
+- Li,J. and Tibshirani,R. (2011) Finding consistent patterns: A
+  nonparametric approach for identifying differential expression in
+  RNA-Seq data. /Stat Methods Med Res./ Published online before print;
+  Nov. 28, 2011.
+- Katayama,S. et al. SAMstrt: Statistical test for differential
+  expression in single-cell transcriptome with spike-in
+  normalization. /Submitted/
+
+--------
+Shintaro Katayama
