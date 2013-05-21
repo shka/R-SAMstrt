@@ -1,24 +1,14 @@
 * SAMstrt
 
-SAMstrt is an extension package for SAMseq, which is a statistical
-method for differential expression, to enable spike-in normalization
-and statistical testing based on the estimated absolute number of
-transcripts per cell for seqencing-based single-cell transcriptome
-methods.
-
-** Usage
-
-Evaluation of "R/SAMstrt.R" enables SAMstrt. All usages (e.g. response
-types) for the SAMstrt are compatible with the original SAMseq. The
-input matrix must contain some rows beginning with "RNA_SPIKE_" for
-the spike-in based normalization. Also one new function
-"SAMstrt.normalization" provides a matrix of the normalized values.
-
-Future publication contains some example codes and data.
-
-** ToDo
-
-- Submission to bioconductor
+Recent studies revealed total transcript numbers per cell vary by cell
+type and the condition. Therefore, many statistical tests for
+differential expression are not necessarily applicable, since it
+assumed that many genes are not differentially expressed. One solution
+is addition of a same amount of spike-in control RNA molecules into
+each sample, for example [Islam2011], and this SAMstrt package
+provides the significance analysis of sequencing data with spike-in
+normalization. The statistical backgrounds and the benefits depend on
+SAMseq of the samr package [Li2011].
 
 ** Acknowledgements
 
@@ -31,13 +21,12 @@ under Project b2010037.
 
 ** References
 
-- Li,J. and Tibshirani,R. (2011) Finding consistent patterns: A
-  nonparametric approach for identifying differential expression in
-  RNA-Seq data. /Stat Methods Med Res./ Published online before print;
-  Nov. 28, 2011.
+- Islam S, et al. Characterization of the single-cell transcriptional landscape by highly multiplex RNA-seq. /Genome Res./ 2011 Jun 1.
+
 - Katayama,S. et al. SAMstrt: Statistical test for differential
   expression in single-cell transcriptome with spike-in
-  normalization. /Submitted/
+  normalization. Submitted.
 
---------
-Shintaro Katayama
+- Li,J. and Tibshirani,R. (2011) Finding consistent patterns: A
+  nonparametric approach for identifying differential expression in
+  RNA-Seq data. /Stat Methods Med Res./ Nov. 28, 2011.

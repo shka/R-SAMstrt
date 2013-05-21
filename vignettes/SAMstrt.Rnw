@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsmath}
+\usepackage{Sweave}
+\SweaveOpts{keep.source=TRUE}
+
+\title{Statistical test for differential expression in sequencing-based transcriptome with spike-in normalization.}
+\author{Shintaro Katayama}
+\date{January 28, 2013}
+
+\begin{document}
+\maketitle
+
+\section{Background}
+Recent studies revealed total transcript numbers per cell vary by cell
+type and the condition. Therefore, many statistical tests for
+differential expression are not necessarily applicable, since it
+assumed that many genes are not differentially expressed. One solution
+is addition of a same amount of spike-in control RNA molecules into
+each sample, for example \cite{Islam2011}, and this SAMstrt package
+provides the significance analysis of sequencing data with spike-in
+normalization. The statistical backgrounds and the benefits depend on
+SAMseq of the samr package \cite{Li2011}.
+
+\section{Usage}
+Loading of this package change the original normalization method of
+SAMseq to the spike-in based. In detail, sum of spike-in read-counts
+in sample $i$ is $d_i$ of the formula 2.4 in \cite{Li2011}. Features,
+which name begins with "RNA\_SPIKE\_", are for the spike-ins as below.
+
+<<>>=
+library(SAMstrt)
+set.seed(100)
+mu <- matrix(100, 1000, 20)
+mu[1:100, 11:20] <- 200
+mu <- scale(mu, center=FALSE, scale=runif(20, 0.5, 1.5))
+x <- matrix(rpois(length(mu), mu), 1000, 20)
+rownames(x) <- sapply(1:nrow(x),
+  function(i){ ifelse(i<4, sprintf("RNA_SPIKE_%d",i),
+                                sprintf("FEATURE_%d",i-3)) })
+head(x)
+@ 
+
+All usages are same with the original SAMseq, however one exception is
+estimation of sequencing depth to make spike-in read-counts equivalent
+over the samples.
+<<>>=
+y <- c(rep(1, 10), rep(2, 10))
+samfit <- SAMseq(x, y, resp.type = "Two class unpaired", nperm=20);
+## The small nperm is just for the demonstration.
+@ 
+
+Function SAMstrt.normalization in this package provides the normalized values for visualization and the other purposes.
+<<>>=
+x.norm <- SAMstrt.normalization(x)
+head(x.norm)
+colSums(x.norm[which(substr(rownames(x.norm), 1, 10) == 'RNA_SPIKE_'), ])
+@ 
+
+\section{Acknowledgements}
+Development of this package was supported by the Karolinska Institutet
+Distinguished Professor Award to Juha Kere, and the Strategic Research
+Area Grant for Diabetes to Karolinska Institutet. The computations
+were performed on resources provided by SNIC through Uppsala
+Multidisciplinary Center for Advanced Computational Science (UPPMAX)
+under Project b2010037.
+
+\begin{thebibliography}{9}
+  \bibitem{Katayama}  Katayama S, et al. \emph{SAMstrt: Statistical test for differential expression in single-cell transcriptome with spike-in normalization.} Submitted.
+  \bibitem{Islam2011} Islam S, Kj\"{a}llquist U, Moliner A, Zajac P, Fan J-B, L\"{o}nnerberg P, et al. \emph{Characterization of the single-cell transcriptional landscape by highly multiplex RNA-seq.} Genome Res. 2011 Jun 1.
+  \bibitem{Li2011} Li J, Tibshirani R. \emph{Finding consistent patterns: A nonparametric approach for identifying differential expression in RNA-Seq data.} Stat Methods Med Res. 2011 Nov 28.
+\end{thebibliography}
+
+\end{document}
